@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Linq;
+using ConsoleApplication1.DataAccess;
 
 namespace ConsoleApplication1
 {
@@ -154,7 +155,7 @@ namespace ConsoleApplication1
                 if (regID.Count != 0)
                 {
                     Int32 id = Int32.Parse(regID[0].Groups[1].Value);
-                    annonce.ID = id;
+                    annonce.Id = id;
                 }
 
                 var regTitle = Regex.Matches(content, "(<span class=\"data-title\">)(?<=[>])([^<>]+)(?=[<])");
@@ -233,33 +234,5 @@ namespace ConsoleApplication1
 
     }
 
-    public class Annonce
-    {
-        public int ID { get; set; }
-        public String Title { get; set; }
-        public String Village { get; set; }
-        public double? Price { get; set; }
-        public int? ConstructionYear { get; set; }
-        public int? Surface { get; set; }
-        public int? Terrain { get; set; }
-        public List<String> Attributs { get; set; }
-        public Boolean Piscine { get; set; }
-        public Boolean Terrasse { get; set; }
-
-        public int? Chambres { get; set; }
-        public int? Pieces { get; set; }
-        public int? Parkings { get; set; }
-
-
-        public double PrixM2
-        {
-            get { return (double)((Price) ?? 0) / (Surface ?? Int32.MaxValue); }
-        }
-
-
-        public Annonce()
-        {
-            Attributs = new List<string>();
-        }
-    }
+   
 }
