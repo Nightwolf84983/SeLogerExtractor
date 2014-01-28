@@ -16,28 +16,84 @@ namespace ConsoleApplication1
     {
         static void Main(string[] args)
         {
+            var DatabasePath = AppDomain.CurrentDomain.BaseDirectory;
+            AppDomain.CurrentDomain.SetData("DataDirectory", DatabasePath);
+
             //String httpRequest = "http://www.seloger.com/recherche.htm?ci=340022,340058,340240,340327&idtt=2&idtypebien=1,2&pxmax=300000&pxmin=290000&tri=a_px";
             String httpRequest = "http://www.seloger.com/recherche.htm?ci=340022,340058,340240,340327&idtt=2&idtypebien=1,2&tri=a_px";
 
-            String idExtraction = "20140123";
+            String idExtraction = "20140127";
 
             String outputDir = Path.Combine(Environment.CurrentDirectory, idExtraction);
 
-            // ExtractAnnonceListSource(httpRequest, idExtraction, outputDir);
+            //ExtractAnnonceListSource(httpRequest, idExtraction, outputDir);
 
             //List<String> annonceHRef = ExtractAnnoncesLink(outputDir);
 
             //ExtractAnnonceSource(annonceHRef, idExtraction, outputDir);
 
-            var annonces = PorcessAnnonceFile(outputDir);
+            var annonces = ProcessAnnonceFile(outputDir);
 
-            FormTable frm = new FormTable(annonces);
-            frm.ShowDialog();
+            using (ModelSeLogerContainer ctx = new ModelSeLogerContainer())
+            {
+                foreach (var annonce in annonces)
+                {
+                    //New
+                    if (!ctx.Annonce.Any(a => a.Id.Equals(annonce.Id)))
+                    {
+                        annonce.DateStart = DateTime.Now.Date;
+                        annonce.DateUpdate = DateTime.Now.Date;
+                        annonce.Version = 0;
+                        annonce.IsCurrentVersion = true;
+
+                        ctx.Annonce.AddObject(annonce);
+                    }
+                    else
+                    {
+                        var existingAnnonce = ctx.Annonce.Single(a => a.IsCurrentVersion && a.Id.Equals(annonce.Id));
+
+                        //New Vesion
+                        if (annonce.Price != existingAnnonce.Price)
+                        {
+                            existingAnnonce.IsCurrentVersion = false;
+                            existingAnnonce.DateUpdate = DateTime.Now.Date;
+
+                            annonce.DateStart = DateTime.Now.Date;
+                            annonce.DateUpdate = DateTime.Now.Date;
+                            annonce.Version = existingAnnonce.Version + 1;
+                            annonce.IsCurrentVersion = true;
+
+                            ctx.Annonce.AddObject(annonce);
+                        }
+                        //Update Vesion
+                        else
+                        {
+                            existingAnnonce.Title = annonce.Title;
+                            existingAnnonce.Village = annonce.Village;
+                            existingAnnonce.Price = annonce.Price;
+                            existingAnnonce.ConstuctionYear = annonce.ConstuctionYear;
+                            existingAnnonce.Surface = annonce.Surface;
+                            existingAnnonce.Terrain = annonce.Terrain;
+                            existingAnnonce.Piscine = annonce.Piscine;
+                            existingAnnonce.Terasse = annonce.Terasse;
+                            existingAnnonce.Chambres = annonce.Chambres;
+                            existingAnnonce.Pieces = annonce.Pieces;
+                            existingAnnonce.Parkings = annonce.Parkings;
+                            existingAnnonce.Attributes = annonce.Attributes;
+
+                            annonce.DateUpdate = DateTime.Now.Date;
+                        }
+                    }
+
+                }
+                ctx.SaveChanges();
+            }
+
+            //FormTable frm = new FormTable(annonces);
+            //frm.ShowDialog();
 
             Console.ReadKey();
         }
-
-
 
         private static void ExtractAnnonceListSource(String httpRequest, String idExtraction, String outputDir)
         {
@@ -137,7 +193,7 @@ namespace ConsoleApplication1
             return annonceHRef;
         }
 
-        private static List<Annonce> PorcessAnnonceFile(String outputDir)
+        private static List<Annonce> ProcessAnnonceFile(String outputDir)
         {
             List<String> atttrs = new List<string>();
 
@@ -146,7 +202,7 @@ namespace ConsoleApplication1
             foreach (var file in Directory.GetFiles(outputDir, "*annonce*"))
             {
                 Annonce annonce = new Annonce();
-                annonces.Add(annonce);
+
 
                 String content = File.ReadAllText(file).Replace(Environment.NewLine, "").Replace("\n", "").Replace("\r", "");
 
@@ -156,6 +212,11 @@ namespace ConsoleApplication1
                 {
                     Int32 id = Int32.Parse(regID[0].Groups[1].Value);
                     annonce.Id = id;
+                 
+                }
+                else
+                {
+                    continue;
                 }
 
                 var regTitle = Regex.Matches(content, "(<span class=\"data-title\">)(?<=[>])([^<>]+)(?=[<])");
@@ -183,7 +244,7 @@ namespace ConsoleApplication1
                         string attribute = item.Groups[3].Value;
 
                         if (attribute.StartsWith("Année de construction "))
-                            annonce.ConstructionYear = Int32.Parse(attribute.Replace("Année de construction ", ""));
+                            annonce.ConstuctionYear = Int32.Parse(attribute.Replace("Année de construction ", ""));
 
                         if (attribute.StartsWith("Surface de "))
                             annonce.Surface = Int32.Parse(attribute.Replace("Surface de ", "").Replace("m²", "").Trim());
@@ -195,7 +256,7 @@ namespace ConsoleApplication1
                             annonce.Piscine = true;
 
                         if (attribute.Contains("Terrasse"))
-                            annonce.Terrasse = true;
+                            annonce.Terasse = true;
 
 
                         if (attribute.Contains("Pièces"))
@@ -226,13 +287,10 @@ namespace ConsoleApplication1
                         }
                     }
                 }
-
+                annonces.Add(annonce);
             }
 
             return annonces;
         }
-
     }
-
-   
 }

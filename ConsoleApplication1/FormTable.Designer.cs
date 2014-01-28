@@ -1,4 +1,5 @@
-﻿namespace ConsoleApplication1
+﻿using ConsoleApplication1.DataAccess;
+namespace ConsoleApplication1
 {
     partial class FormTable
     {
@@ -69,7 +70,7 @@
             // 
             // annonceBindingSource
             // 
-            this.annonceBindingSource.DataSource = typeof(ConsoleApplication1.Annonce);
+            this.annonceBindingSource.DataSource = typeof(Annonce);
             // 
             // annonceBindingNavigator
             // 
