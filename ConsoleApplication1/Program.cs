@@ -8,104 +8,128 @@ using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Linq;
-using ConsoleApplication1.DataAccess;
+using System.Threading.Tasks;
+using System.Threading;
+using SeLogerExtractor.DataAccess.DataAccess;
 
-namespace ConsoleApplication1
+namespace SeLogerExtractor.DataAccess
 {
+
+
     class Program
     {
+        private static bool _stopService = false;
+
         static void Main(string[] args)
         {
             var DatabasePath = AppDomain.CurrentDomain.BaseDirectory;
             AppDomain.CurrentDomain.SetData("DataDirectory", DatabasePath);
 
-            //String httpRequest = "http://www.seloger.com/recherche.htm?ci=340022,340058,340240,340327&idtt=2&idtypebien=1,2&pxmax=300000&pxmin=290000&tri=a_px";
-            String httpRequest = "http://www.seloger.com/recherche.htm?ci=340022,340058,340240,340327&idtt=2&idtypebien=1,2&tri=a_px";
-
-            String idExtraction = "20140127";
-
-            String outputDir = Path.Combine(Environment.CurrentDirectory, idExtraction);
-
-            //ExtractAnnonceListSource(httpRequest, idExtraction, outputDir);
-
-            //List<String> annonceHRef = ExtractAnnoncesLink(outputDir);
-
-            //ExtractAnnonceSource(annonceHRef, idExtraction, outputDir);
-
-            var annonces = ProcessAnnonceFile(outputDir);
-
-            using (ModelSeLogerContainer ctx = new ModelSeLogerContainer())
+            Task _task = new Task(() =>
             {
-                foreach (var annonce in annonces)
+                DateTime lastExtractionDate = DateTime.Now.Date.AddDays(-1);
+
+                while (!_stopService)
                 {
-                    //New
-                    if (!ctx.Annonce.Any(a => a.Id.Equals(annonce.Id)))
+                    Logger.Log("Do i do extract ?");
+                    if ((DateTime.Now.Date - lastExtractionDate).TotalDays >= 1)
                     {
-                        annonce.DateStart = DateTime.Now.Date;
-                        annonce.DateUpdate = DateTime.Now.Date;
-                        annonce.Version = 0;
-                        annonce.IsCurrentVersion = true;
-
-                        ctx.Annonce.AddObject(annonce);
-                    }
-                    else
-                    {
-                        var existingAnnonce = ctx.Annonce.Single(a => a.IsCurrentVersion && a.Id.Equals(annonce.Id));
-
-                        //New Vesion
-                        if (annonce.Price != existingAnnonce.Price)
-                        {
-                            existingAnnonce.IsCurrentVersion = false;
-                            existingAnnonce.DateUpdate = DateTime.Now.Date;
-
-                            annonce.DateStart = DateTime.Now.Date;
-                            annonce.DateUpdate = DateTime.Now.Date;
-                            annonce.Version = existingAnnonce.Version + 1;
-                            annonce.IsCurrentVersion = true;
-
-                            ctx.Annonce.AddObject(annonce);
-                        }
-                        //Update Vesion
-                        else
-                        {
-                            existingAnnonce.Title = annonce.Title;
-                            existingAnnonce.Village = annonce.Village;
-                            existingAnnonce.Price = annonce.Price;
-                            existingAnnonce.ConstuctionYear = annonce.ConstuctionYear;
-                            existingAnnonce.Surface = annonce.Surface;
-                            existingAnnonce.Terrain = annonce.Terrain;
-                            existingAnnonce.Piscine = annonce.Piscine;
-                            existingAnnonce.Terasse = annonce.Terasse;
-                            existingAnnonce.Chambres = annonce.Chambres;
-                            existingAnnonce.Pieces = annonce.Pieces;
-                            existingAnnonce.Parkings = annonce.Parkings;
-                            existingAnnonce.Attributes = annonce.Attributes;
-
-                            annonce.DateUpdate = DateTime.Now.Date;
-                        }
+                        var idExtraction = DateTime.Now.Date.ToString("yyyyMMdd");
+                        Logger.Log("Extraction:" + idExtraction + "  Start extraction");
+                        Extractor.ExtractData(idExtraction);
+                        lastExtractionDate = DateTime.Now.Date;
+                        Logger.Log("Extraction:" + idExtraction + "  End extraction");
                     }
 
+                    //Wait 10 minutes before next extraction attempt
+                    int waitLimit = 0;
+                    while (waitLimit < 10 && !_stopService)
+                    {
+                        waitLimit++;
+                        Thread.Sleep(1000);
+                    }
                 }
-                ctx.SaveChanges();
-            }
 
-            //FormTable frm = new FormTable(annonces);
-            //frm.ShowDialog();
+                Logger.Log("Service is stopping");
+            });
+            _task.Start();
+        
+            Console.ReadKey();
+            _stopService = true;
 
             Console.ReadKey();
+
+        }
+    }
+
+    public class Extractor
+    {
+        public static void ExtractData(String idExtraction)
+        {
+            String outputDir = Path.Combine(Environment.CurrentDirectory, idExtraction);
+
+            try
+            {
+                Logger.Log("Extraction:" + idExtraction + "  CreateOutputDirectory");
+                Logger.Log("\t" + outputDir);
+                CreateOutputDirectory(outputDir);
+
+                Logger.Log("Extraction:" + idExtraction + "  DownloadAnnonceListSource");
+                DownloadAnnonceListSource(Parameters.SearchURL, idExtraction, outputDir);
+
+                Logger.Log("Extraction:" + idExtraction + "  ExtractAnnoncesLinkFromSource");
+                var annonceLinks = ExtractAnnoncesLinkFromSource(outputDir);
+
+                Logger.Log("Extraction:" + idExtraction + "  DownloadAnnonceSource");
+                DownloadAnnonceSource(annonceLinks, idExtraction, outputDir);
+
+                Logger.Log("Extraction:" + idExtraction + "  ExtractAnnoncesSource");
+                var annonces = ExtractAnnoncesFromSource(outputDir);
+
+                Logger.Log("Extraction:" + idExtraction + "  SaveToDataBase");
+                SaveToDataBase(annonces);
+            }
+            catch (Exception ex)
+            {
+                Logger.Log("Extraction:" + idExtraction + "  Exception");
+                Logger.Log(ex.ToString());
+                throw;
+            }
+            finally
+            {
+                try
+                {
+                    Logger.Log("Extraction:" + idExtraction + "  DeleteOutputDirectory");
+                    DeleteOutputDirectory(outputDir);
+                }
+                catch (Exception)
+                {
+
+                }
+            }
         }
 
-        private static void ExtractAnnonceListSource(String httpRequest, String idExtraction, String outputDir)
+        private static void CreateOutputDirectory(String outputDir)
         {
             if (Directory.Exists(outputDir))
                 Directory.Delete(outputDir, true);
 
             Directory.CreateDirectory(outputDir);
+        }
 
+        private static void DeleteOutputDirectory(string outputDir)
+        {
+            if (Directory.Exists(outputDir))
+                Directory.Delete(outputDir, true);
+        }
+
+        private static void DownloadAnnonceListSource(String httpRequest, String idExtraction, String outputDir)
+        {
             int page = 1;
             while (true)
             {
-                Console.WriteLine("Start page " + page);
+                Logger.Log("Extraction:" + idExtraction + "  Downloading page " + page);
+
                 String httpRequestPaged = String.Format("{0}&ANNONCEpg={1}", httpRequest, page);
                 WebRequest request = WebRequest.Create(httpRequestPaged);
 
@@ -124,20 +148,17 @@ namespace ConsoleApplication1
 
                 if (Regex.Matches(responseFromServer, "annonce__detail").Count == 3)
                 {
-                    Console.WriteLine("End reached");
                     break;
                 }
 
                 String filePath = Path.Combine(outputDir, String.Format("{0}_page_{1}.xml", idExtraction, page));
                 File.WriteAllText(filePath, responseFromServer);
 
-                Console.Write(" End page" + page);
-
                 page++;
             }
         }
 
-        private static void ExtractAnnonceSource(List<String> annonceHRefs, String idExtraction, String outputDir)
+        private static void DownloadAnnonceSource(List<String> annonceHRefs, String idExtraction, String outputDir)
         {
             int annonce = 1;
 
@@ -177,7 +198,7 @@ namespace ConsoleApplication1
             }
         }
 
-        private static List<String> ExtractAnnoncesLink(String outputDir)
+        private static List<String> ExtractAnnoncesLinkFromSource(String outputDir)
         {
             List<String> annonceHRef = new List<string>();
 
@@ -193,7 +214,7 @@ namespace ConsoleApplication1
             return annonceHRef;
         }
 
-        private static List<Annonce> ProcessAnnonceFile(String outputDir)
+        private static List<Annonce> ExtractAnnoncesFromSource(String outputDir)
         {
             List<String> atttrs = new List<string>();
 
@@ -212,7 +233,7 @@ namespace ConsoleApplication1
                 {
                     Int32 id = Int32.Parse(regID[0].Groups[1].Value);
                     annonce.Id = id;
-                 
+
                 }
                 else
                 {
@@ -291,6 +312,64 @@ namespace ConsoleApplication1
             }
 
             return annonces;
+        }
+
+        private static void SaveToDataBase(List<Annonce> annonces)
+        {
+            using (ModelSeLogerContainer ctx = new ModelSeLogerContainer())
+            {
+                foreach (var annonce in annonces)
+                {
+                    //New
+                    if (!ctx.Annonce.Any(a => a.Id.Equals(annonce.Id)))
+                    {
+                        annonce.DateStart = DateTime.Now.Date;
+                        annonce.DateUpdate = DateTime.Now.Date;
+                        annonce.Version = 0;
+                        annonce.IsCurrentVersion = true;
+
+                        ctx.Annonce.AddObject(annonce);
+                    }
+                    else
+                    {
+                        var existingAnnonce = ctx.Annonce.Single(a => a.IsCurrentVersion && a.Id.Equals(annonce.Id));
+
+                        //New Vesion
+                        if (annonce.Price != existingAnnonce.Price)
+                        {
+                            existingAnnonce.IsCurrentVersion = false;
+                            existingAnnonce.DateUpdate = DateTime.Now.Date;
+
+                            annonce.DateStart = DateTime.Now.Date;
+                            annonce.DateUpdate = DateTime.Now.Date;
+                            annonce.Version = existingAnnonce.Version + 1;
+                            annonce.IsCurrentVersion = true;
+
+                            ctx.Annonce.AddObject(annonce);
+                        }
+                        //Update Vesion
+                        else
+                        {
+                            existingAnnonce.Title = annonce.Title;
+                            existingAnnonce.Village = annonce.Village;
+                            existingAnnonce.Price = annonce.Price;
+                            existingAnnonce.ConstuctionYear = annonce.ConstuctionYear;
+                            existingAnnonce.Surface = annonce.Surface;
+                            existingAnnonce.Terrain = annonce.Terrain;
+                            existingAnnonce.Piscine = annonce.Piscine;
+                            existingAnnonce.Terasse = annonce.Terasse;
+                            existingAnnonce.Chambres = annonce.Chambres;
+                            existingAnnonce.Pieces = annonce.Pieces;
+                            existingAnnonce.Parkings = annonce.Parkings;
+                            existingAnnonce.Attributes = annonce.Attributes;
+
+                            annonce.DateUpdate = DateTime.Now.Date;
+                        }
+                    }
+
+                }
+                ctx.SaveChanges();
+            }
         }
     }
 }

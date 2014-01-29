@@ -1,4 +1,4 @@
-﻿using ConsoleApplication1.DataAccess;
+﻿using SeLogerExtractor.DataAccess.DataAccess;
 namespace ConsoleApplication1
 {
     partial class FormTable

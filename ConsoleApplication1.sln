@@ -1,7 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplication1", "ConsoleApplication1\ConsoleApplication1.csproj", "{FC307859-9E21-4BF3-8A11-3F5F7F5FAB8C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeLogerExtractor.DataAccess", "ConsoleApplication1\SeLogerExtractor.DataAccess.csproj", "{FC307859-9E21-4BF3-8A11-3F5F7F5FAB8C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeLogerExtractor.WindowsService", "SeLogerExtractor.WindowsService\SeLogerExtractor.WindowsService.csproj", "{3F16FC46-7834-4ABB-92A9-D954FEB060EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +15,10 @@ Global
 		{FC307859-9E21-4BF3-8A11-3F5F7F5FAB8C}.Debug|x86.Build.0 = Debug|x86
 		{FC307859-9E21-4BF3-8A11-3F5F7F5FAB8C}.Release|x86.ActiveCfg = Release|x86
 		{FC307859-9E21-4BF3-8A11-3F5F7F5FAB8C}.Release|x86.Build.0 = Release|x86
+		{3F16FC46-7834-4ABB-92A9-D954FEB060EA}.Debug|x86.ActiveCfg = Debug|x86
+		{3F16FC46-7834-4ABB-92A9-D954FEB060EA}.Debug|x86.Build.0 = Debug|x86
+		{3F16FC46-7834-4ABB-92A9-D954FEB060EA}.Release|x86.ActiveCfg = Release|x86
+		{3F16FC46-7834-4ABB-92A9-D954FEB060EA}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -17,7 +17,7 @@ using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
 [assembly: EdmSchemaAttribute()]
-namespace ConsoleApplication1.DataAccess
+namespace SeLogerExtractor.DataAccess.DataAccess
 {
     #region Contextes
     
