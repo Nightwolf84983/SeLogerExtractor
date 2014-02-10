@@ -53,7 +53,7 @@ namespace SeLogerExtractor.DataAccess
                 Logger.Log("Service is stopping");
             });
             _task.Start();
-        
+
             Console.ReadKey();
             _stopService = true;
 
@@ -254,6 +254,25 @@ namespace SeLogerExtractor.DataAccess
                 {
                     double price = double.Parse(regPrice[0].Groups[2].Value.Replace(" ", "").Replace("€", ""));
                     annonce.Price = price;
+                }
+
+                var regItemDPE = Regex.Matches(content, "(liste__item-float liste__item-switch item-dpeges\"  title=)([\"])([^<>]+)([\"])");
+
+                if (regItemDPE.Count != 0)
+                {
+                    foreach (Match item in regItemDPE)
+                    {
+                        string attribute = item.Groups[3].Value;
+
+                        if (attribute.StartsWith("DPE"))
+                        {
+                            annonce.DPE = attribute.Replace("DPE: ", String.Empty);
+                        }
+                        else if (attribute.StartsWith("GES"))
+                        {
+                            annonce.GES = attribute.Replace("GES: ", String.Empty);
+                        }
+                    }
                 }
 
                 var regItemSwitch = Regex.Matches(content, "(liste__item-switch\")\\s*(title=\")([^\">]+)");

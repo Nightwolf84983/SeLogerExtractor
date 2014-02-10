@@ -121,7 +121,9 @@ namespace SeLogerExtractor.DataAccess.DataAccess
         /// <param name="dateUpdate">Valeur initiale de la propriété DateUpdate.</param>
         /// <param name="version">Valeur initiale de la propriété Version.</param>
         /// <param name="isCurrentVersion">Valeur initiale de la propriété IsCurrentVersion.</param>
-        public static Annonce CreateAnnonce(global::System.Int32 id, global::System.Boolean piscine, global::System.Boolean terasse, global::System.DateTime dateStart, global::System.DateTime dateUpdate, global::System.Int32 version, global::System.Boolean isCurrentVersion)
+        /// <param name="dPE">Valeur initiale de la propriété DPE.</param>
+        /// <param name="gES">Valeur initiale de la propriété GES.</param>
+        public static Annonce CreateAnnonce(global::System.Int32 id, global::System.Boolean piscine, global::System.Boolean terasse, global::System.DateTime dateStart, global::System.DateTime dateUpdate, global::System.Int32 version, global::System.Boolean isCurrentVersion, global::System.String dPE, global::System.String gES)
         {
             Annonce annonce = new Annonce();
             annonce.Id = id;
@@ -131,6 +133,8 @@ namespace SeLogerExtractor.DataAccess.DataAccess
             annonce.DateUpdate = dateUpdate;
             annonce.Version = version;
             annonce.IsCurrentVersion = isCurrentVersion;
+            annonce.DPE = dPE;
+            annonce.GES = gES;
             return annonce;
         }
 
@@ -551,6 +555,54 @@ namespace SeLogerExtractor.DataAccess.DataAccess
         private global::System.Boolean _IsCurrentVersion;
         partial void OnIsCurrentVersionChanging(global::System.Boolean value);
         partial void OnIsCurrentVersionChanged();
+    
+        /// <summary>
+        /// Aucune documentation sur les métadonnées n'est disponible.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String DPE
+        {
+            get
+            {
+                return _DPE;
+            }
+            set
+            {
+                OnDPEChanging(value);
+                ReportPropertyChanging("DPE");
+                _DPE = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("DPE");
+                OnDPEChanged();
+            }
+        }
+        private global::System.String _DPE;
+        partial void OnDPEChanging(global::System.String value);
+        partial void OnDPEChanged();
+    
+        /// <summary>
+        /// Aucune documentation sur les métadonnées n'est disponible.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String GES
+        {
+            get
+            {
+                return _GES;
+            }
+            set
+            {
+                OnGESChanging(value);
+                ReportPropertyChanging("GES");
+                _GES = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("GES");
+                OnGESChanged();
+            }
+        }
+        private global::System.String _GES;
+        partial void OnGESChanging(global::System.String value);
+        partial void OnGESChanged();
 
         #endregion
 

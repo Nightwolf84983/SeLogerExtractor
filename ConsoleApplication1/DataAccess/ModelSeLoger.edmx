@@ -60,6 +60,8 @@
           <Property Type="String" Name="Attributes" Nullable="true" />
           <Property Type="Int32" Name="Version" Nullable="false" />
           <Property Type="Boolean" Name="IsCurrentVersion" Nullable="false" />
+          <Property Type="String" Name="DPE" Nullable="false" />
+          <Property Type="String" Name="GES" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -110,7 +112,7 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram Name="ModelSeLoger" >
-        <EntityTypeShape EntityType="ModelSeLoger.Annonce" Width="1.5" PointX="2" PointY="0.75" Height="4.2879036458333326" />
+        <EntityTypeShape EntityType="ModelSeLoger.Annonce" Width="1.5" PointX="2" PointY="0.75" Height="4.6725065104166656" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

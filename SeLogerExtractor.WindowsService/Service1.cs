@@ -31,8 +31,11 @@ namespace SeLogerExtractor.WindowsService
                 {
                     if ((DateTime.Now.Date - lastExtractionDate).TotalDays >= 1)
                     {
-                        Extractor.ExtractData(DateTime.Now.Date.ToString("yyyyMMdd"));
+                        var idExtraction = DateTime.Now.Date.ToString("yyyyMMdd");
+                        Logger.Log("Extraction:" + idExtraction + "  Start extraction");
+                        Extractor.ExtractData(idExtraction);
                         lastExtractionDate = DateTime.Now.Date;
+                        Logger.Log("Extraction:" + idExtraction + "  End extraction");
                     }
 
                     //Wait 10 minutes before next extraction attempt
