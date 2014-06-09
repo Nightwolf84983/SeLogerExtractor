@@ -73,16 +73,16 @@ namespace SeLogerExtractor.DataAccess
             //{
             Logger.Log("Extraction:" + idExtraction + "  CreateOutputDirectory");
             Logger.Log("\t" + outputDir);
-            //  CreateOutputDirectory(outputDir);
+            // CreateOutputDirectory(outputDir);
 
             Logger.Log("Extraction:" + idExtraction + "  DownloadAnnonceListSource");
-            // DownloadAnnonceListSource(Parameters.SearchURL, idExtraction, outputDir);
+            //  DownloadAnnonceListSource(Parameters.SearchURL, idExtraction, outputDir);
 
             Logger.Log("Extraction:" + idExtraction + "  ExtractAnnoncesLinkFromSource");
-            //     var annonceLinks = ExtractAnnoncesLinkFromSource(outputDir);
+            var annonceLinks = ExtractAnnoncesLinkFromSource(outputDir);
 
             Logger.Log("Extraction:" + idExtraction + "  DownloadAnnonceSource");
-            //   DownloadAnnonceSource(annonceLinks, idExtraction, outputDir);
+            DownloadAnnonceSource(annonceLinks, idExtraction, outputDir);
 
             Logger.Log("Extraction:" + idExtraction + "  ExtractAnnoncesSource");
             var annonces = ExtractAnnoncesFromSource(outputDir);
@@ -97,7 +97,7 @@ namespace SeLogerExtractor.DataAccess
                                         && a.Chambres >= 3
                                         ).ToList();
 
-           
+
 
             FormTable frm = new FormTable(annonces);
             frm.ShowDialog();

@@ -83,14 +83,11 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ModelSeLoger.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="App.Config" />
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="DataAccess\ModelSeLoger.edmx.sqlce" />
     <None Include="Properties\DataSources\Annonce.datasource" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="DataAccess\Database.sdf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
