@@ -11,6 +11,7 @@ using System.Xml.Linq;
 using System.Threading.Tasks;
 using System.Threading;
 using SeLogerExtractor.DataAccess.DataAccess;
+using ConsoleApplication1;
 
 namespace SeLogerExtractor.DataAccess
 {
@@ -68,45 +69,60 @@ namespace SeLogerExtractor.DataAccess
         {
             String outputDir = Path.Combine(Environment.CurrentDirectory, idExtraction);
 
+            //try
+            //{
+            Logger.Log("Extraction:" + idExtraction + "  CreateOutputDirectory");
+            Logger.Log("\t" + outputDir);
+            //  CreateOutputDirectory(outputDir);
+
+            Logger.Log("Extraction:" + idExtraction + "  DownloadAnnonceListSource");
+            // DownloadAnnonceListSource(Parameters.SearchURL, idExtraction, outputDir);
+
+            Logger.Log("Extraction:" + idExtraction + "  ExtractAnnoncesLinkFromSource");
+            //     var annonceLinks = ExtractAnnoncesLinkFromSource(outputDir);
+
+            Logger.Log("Extraction:" + idExtraction + "  DownloadAnnonceSource");
+            //   DownloadAnnonceSource(annonceLinks, idExtraction, outputDir);
+
+            Logger.Log("Extraction:" + idExtraction + "  ExtractAnnoncesSource");
+            var annonces = ExtractAnnoncesFromSource(outputDir);
+
+            annonces = annonces.Where(a => a.Terrain != null
+                                        && a.Terrain >= 200
+                                        && a.Terrain <= 600
+                                        && a.Surface != null
+                                        && a.Surface >= 80
+                                        && a.Surface <= 130
+                                        && a.Price != null
+                                        && a.Chambres >= 3
+                                        ).ToList();
+
+           
+
+            FormTable frm = new FormTable(annonces);
+            frm.ShowDialog();
+
+            Logger.Log("Extraction:" + idExtraction + "  SaveToDataBase");
+            //  SaveToDataBase(annonces);
+            //}
+            //catch (Exception ex)
+            //{
+            //    Logger.Log("Extraction:" + idExtraction + "  Exception");
+            //    Logger.Log(ex.ToString());
+            //    throw;
+            //}
+            //finally
+            //{
             try
             {
-                Logger.Log("Extraction:" + idExtraction + "  CreateOutputDirectory");
-                Logger.Log("\t" + outputDir);
-                CreateOutputDirectory(outputDir);
-
-                Logger.Log("Extraction:" + idExtraction + "  DownloadAnnonceListSource");
-                DownloadAnnonceListSource(Parameters.SearchURL, idExtraction, outputDir);
-
-                Logger.Log("Extraction:" + idExtraction + "  ExtractAnnoncesLinkFromSource");
-                var annonceLinks = ExtractAnnoncesLinkFromSource(outputDir);
-
-                Logger.Log("Extraction:" + idExtraction + "  DownloadAnnonceSource");
-                DownloadAnnonceSource(annonceLinks, idExtraction, outputDir);
-
-                Logger.Log("Extraction:" + idExtraction + "  ExtractAnnoncesSource");
-                var annonces = ExtractAnnoncesFromSource(outputDir);
-
-                Logger.Log("Extraction:" + idExtraction + "  SaveToDataBase");
-                SaveToDataBase(annonces);
+                Logger.Log("Extraction:" + idExtraction + "  DeleteOutputDirectory");
+                //  DeleteOutputDirectory(outputDir);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Logger.Log("Extraction:" + idExtraction + "  Exception");
-                Logger.Log(ex.ToString());
-                throw;
-            }
-            finally
-            {
-                try
-                {
-                    Logger.Log("Extraction:" + idExtraction + "  DeleteOutputDirectory");
-                    DeleteOutputDirectory(outputDir);
-                }
-                catch (Exception)
-                {
 
-                }
             }
+            //}
         }
 
         private static void CreateOutputDirectory(String outputDir)
@@ -130,7 +146,7 @@ namespace SeLogerExtractor.DataAccess
             {
                 Logger.Log("Extraction:" + idExtraction + "  Downloading page " + page);
 
-                String httpRequestPaged = String.Format("{0}&ANNONCEpg={1}", httpRequest, page);
+                String httpRequestPaged = String.Format("{0}&LISTING-LISTpg={1}", httpRequest, page);
                 WebRequest request = WebRequest.Create(httpRequestPaged);
 
                 WebResponse response = request.GetResponse();
@@ -146,7 +162,7 @@ namespace SeLogerExtractor.DataAccess
                 reader.Close();
                 response.Close();
 
-                if (Regex.Matches(responseFromServer, "annonce__detail").Count == 3)
+                if (Regex.Matches(responseFromServer, "annonce__detail").Count == 0)
                 {
                     break;
                 }
@@ -206,11 +222,14 @@ namespace SeLogerExtractor.DataAccess
             {
                 String content = File.ReadAllText(annonceListSourcePath).Replace(Environment.NewLine, "").Replace("\n", "").Replace("\r", "");
 
-                var r = Regex.Matches(content, "(<div class=\"annonce__detail\">\\s*<a class=\"annone__detail__title annonce__link\" )(href=[\'\"]?([^\'\" >]+))");
+                var r = Regex.Matches(content, "<a href=\"(http://www.seloger.com/annonces/achat/maison(?:(?![?]).)*)");
 
                 foreach (Match item in r)
-                    annonceHRef.Add(item.Groups[2].Value.Replace("href=\"", ""));
+                    annonceHRef.Add(item.Groups[1].Value.Replace("href=\"", ""));
             }
+
+            annonceHRef = annonceHRef.Distinct().ToList();
+
             return annonceHRef;
         }
 
@@ -227,107 +246,81 @@ namespace SeLogerExtractor.DataAccess
 
                 String content = File.ReadAllText(file).Replace(Environment.NewLine, "").Replace("\n", "").Replace("\r", "");
 
-                var regID = Regex.Matches(content, "<input type=\"hidden\" name=\"idannonce\" id=\"idannonce\" value=\"([^\"]+)\"/>");
+                var regVille = Regex.Matches(content, "<input type=\"hidden\" name=\"nomville\" value=\"((?:(?![\"]).)*)");
 
-                if (regID.Count != 0)
+                if (regVille.Count != 0)
                 {
-                    Int32 id = Int32.Parse(regID[0].Groups[1].Value);
-                    annonce.Id = id;
-
-                }
-                else
-                {
-                    continue;
+                    string title = regVille[0].Groups[1].Value;
+                    annonce.Village = title;
                 }
 
-                var regTitle = Regex.Matches(content, "(<span class=\"data-title\">)(?<=[>])([^<>]+)(?=[<])");
+                var regsurface = Regex.Matches(content, "<input type=\"hidden\" name=\"surface\" value=\"((?:(?![\"]).)*)");
 
-                if (regTitle.Count != 0)
+                if (regsurface.Count != 0)
                 {
-                    string title = regTitle[0].Groups[2].Value;
+                    string title = regsurface[0].Groups[1].Value;
+                    if (!String.IsNullOrWhiteSpace(title))
+                        annonce.Surface = double.Parse(title);
+                }
+
+                var regtypebien = Regex.Matches(content, "<input type=\"hidden\" name=\"typebien\" value=\"((?:(?![\"]).)*)");
+
+                if (regtypebien.Count != 0)
+                {
+                    string title = regtypebien[0].Groups[1].Value;
                     annonce.Title = title;
                 }
 
-                var regPrice = Regex.Matches(content, "(<span class=\"data-price\">)(.*[€])( <)");
+
+                var resumeCritere = Regex.Matches(content, "<li class=\"resume__critere\">((?:(?![\b<\b]).)*)");
+
+                if (resumeCritere.Count != 0)
+                {
+                    foreach (Match item in resumeCritere)
+                    {
+                        var text = item.Groups[1].Value;
+                        if (text.Contains("Chambres"))
+                            annonce.Chambres = int.Parse(text.Replace("Chambres", "").Trim());
+
+
+                    }
+                }
+
+                var regTerrain = Regex.Matches(content, "Terrain de ([0-9]+)(?:(?!m).)*");
+
+                if (regTerrain.Count != 0)
+                {
+                    string title = regTerrain[0].Groups[1].Value;
+                    if (!String.IsNullOrWhiteSpace(title))
+                        annonce.Terrain = double.Parse(title);
+                }
+
+                var regAnnee = Regex.Matches(content, "Année de construction ([0-9]+)(?:(?!\").)*");
+
+                if (regAnnee.Count != 0)
+                {
+                    string title = regAnnee[0].Groups[1].Value;
+                    if (!String.IsNullOrWhiteSpace(title))
+                        annonce.ConstuctionYear = int.Parse(title);
+                }
+
+                var regPrice = Regex.Matches(content, "<span class=\"data-price\">([0-9\\s]*)((?:(?![\b€\b]).)*)");
 
                 if (regPrice.Count != 0)
                 {
-                    double price = double.Parse(regPrice[0].Groups[2].Value.Replace(" ", "").Replace("€", ""));
-                    annonce.Price = price;
+                    string title = regPrice[0].Groups[1].Value;
+                    if (!String.IsNullOrWhiteSpace(title))
+                        annonce.Price = int.Parse(title.Replace(" ", String.Empty).Replace(" ", ""));
                 }
 
-                var regItemDPE = Regex.Matches(content, "(liste__item-float liste__item-switch item-dpeges\"  title=)([\"])([^<>]+)([\"])");
-
-                if (regItemDPE.Count != 0)
-                {
-                    foreach (Match item in regItemDPE)
-                    {
-                        string attribute = item.Groups[3].Value;
-
-                        if (attribute.StartsWith("DPE"))
-                        {
-                            annonce.DPE = attribute.Replace("DPE: ", String.Empty);
-                        }
-                        else if (attribute.StartsWith("GES"))
-                        {
-                            annonce.GES = attribute.Replace("GES: ", String.Empty);
-                        }
-                    }
-                }
-
-                var regItemSwitch = Regex.Matches(content, "(liste__item-switch\")\\s*(title=\")([^\">]+)");
-
-                if (regItemSwitch.Count != 0)
-                {
-                    foreach (Match item in regItemSwitch)
-                    {
-                        string attribute = item.Groups[3].Value;
-
-                        if (attribute.StartsWith("Année de construction "))
-                            annonce.ConstuctionYear = Int32.Parse(attribute.Replace("Année de construction ", ""));
-
-                        if (attribute.StartsWith("Surface de "))
-                            annonce.Surface = Int32.Parse(attribute.Replace("Surface de ", "").Replace("m²", "").Trim());
-
-                        if (attribute.StartsWith("Terrain de "))
-                            annonce.Terrain = Int32.Parse(attribute.Replace("Terrain de ", "").Replace("m²", "").Trim());
-
-                        if (attribute.StartsWith("Piscine"))
-                            annonce.Piscine = true;
-
-                        if (attribute.Contains("Terrasse"))
-                            annonce.Terasse = true;
 
 
-                        if (attribute.Contains("Pièces"))
-                        {
-                            var regex = Regex.Matches(attribute, "([0-9]+) (Pièce)");
-                            if (regex.Count != 0)
-                            {
-                                annonce.Pieces = Int32.Parse(regex[0].Groups[1].Value);
-                            }
-                        }
 
-                        if (attribute.Contains("Chambre"))
-                        {
-                            var regex = Regex.Matches(attribute, "([0-9]+) (Chambre)");
-                            if (regex.Count != 0)
-                            {
-                                annonce.Chambres = Int32.Parse(regex[0].Groups[1].Value);
-                            }
-                        }
 
-                        if (attribute.Contains("Parking"))
-                        {
-                            var regex = Regex.Matches(attribute, "([0-9]+) (Parking)");
-                            if (regex.Count != 0)
-                            {
-                                annonce.Parkings = Int32.Parse(regex[0].Groups[1].Value);
-                            }
-                        }
-                    }
-                }
+
                 annonces.Add(annonce);
+
+
             }
 
             return annonces;

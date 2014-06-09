@@ -21,6 +21,29 @@ namespace ConsoleApplication1
             InitializeComponent();
 
             this.annonceBindingSource.DataSource = list;
+
+            MessageBox.Show(String.Format("PrixM2 mediane m2: {0}", GetMedian(list.Select(a => a.PrixM2).ToArray())));
+            MessageBox.Show(String.Format("PrixM2Terrain mediane m2: {0}", GetMedian(list.Select(a => a.PrixM2Terrain).ToArray())));
+        }
+
+        public static double GetMedian(double[] sourceNumbers)
+        {
+            //Framework 2.0 version of this method. there is an easier way in F4        
+            if (sourceNumbers == null || sourceNumbers.Length == 0)
+                return 0D;
+
+            //make sure the list is sorted, but use a new array
+            double[] sortedPNumbers = (double[])sourceNumbers.Clone();
+            sourceNumbers.CopyTo(sortedPNumbers, 0);
+            Array.Sort(sortedPNumbers);
+
+            //get the median
+            int size = sortedPNumbers.Length;
+            int mid = size / 2;
+            double median = (size % 2 != 0) ? (double)sortedPNumbers[mid] : ((double)sortedPNumbers[mid] + (double)sortedPNumbers[mid - 1]) / 2;
+            return median;
         }
     }
+
+
 }

@@ -7,7 +7,7 @@ namespace SeLogerExtractor.DataAccess
 {
     public static class Parameters
     {
-        public static String SearchURL { get { return "http://www.seloger.com/recherche.htm?ci=340022,340058,340240,340327&idtt=2&idtypebien=1,2&tri=a_px"; } }
+        public static String SearchURL { get { return "http://www.seloger.com/list.htm?ci=340022%2c340058%2c340240%2c340327&idtt=2&idtypebien=2"; } }
 
     }
 }

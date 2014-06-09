@@ -16,6 +16,12 @@ namespace SeLogerExtractor.DataAccess.DataAccess
         }
 
 
+        public double PrixM2Terrain
+        {
+            get { return (double)((Price) ?? 0) / (Terrain ?? Int32.MaxValue); }
+        }
+
+
      
     }
 }

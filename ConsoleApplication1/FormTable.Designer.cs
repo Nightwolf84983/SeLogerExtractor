@@ -261,7 +261,7 @@ namespace ConsoleApplication1
             // 
             // colConstructionYear
             // 
-            this.colConstructionYear.FieldName = "ConstructionYear";
+            this.colConstructionYear.FieldName = "ConstuctionYear";
             this.colConstructionYear.Name = "colConstructionYear";
             this.colConstructionYear.Visible = true;
             this.colConstructionYear.VisibleIndex = 4;
