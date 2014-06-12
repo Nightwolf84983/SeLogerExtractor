@@ -1,4 +1,5 @@
 ﻿using SeLogerExtractor.DataAccess.DataAccess;
+using System.Windows.Forms;
 namespace ConsoleApplication1
 {
     partial class FormTable
@@ -30,234 +31,189 @@ namespace ConsoleApplication1
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormTable));
+            System.Windows.Forms.Label surfaceMaxLabel;
+            System.Windows.Forms.Label terrainMaxLabel;
             DevExpress.XtraGrid.GridLevelNode gridLevelNode1 = new DevExpress.XtraGrid.GridLevelNode();
             this.annonceBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.annonceBindingNavigator = new System.Windows.Forms.BindingNavigator(this.components);
-            this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
-            this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
-            this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
-            this.bindingNavigatorMoveFirstItem = new System.Windows.Forms.ToolStripButton();
-            this.bindingNavigatorMovePreviousItem = new System.Windows.Forms.ToolStripButton();
-            this.bindingNavigatorSeparator = new System.Windows.Forms.ToolStripSeparator();
-            this.bindingNavigatorPositionItem = new System.Windows.Forms.ToolStripTextBox();
-            this.bindingNavigatorSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.bindingNavigatorMoveNextItem = new System.Windows.Forms.ToolStripButton();
-            this.bindingNavigatorMoveLastItem = new System.Windows.Forms.ToolStripButton();
-            this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.annonceBindingNavigatorSaveItem = new System.Windows.Forms.ToolStripButton();
-            this.annonceGridControl = new DevExpress.XtraGrid.GridControl();
+            this.criteriaBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.surfaceMaxTrackBar = new System.Windows.Forms.TrackBar();
+            this.surfaceMinTrackBar = new System.Windows.Forms.TrackBar();
+            this.terrainMaxTrackBar = new System.Windows.Forms.TrackBar();
+            this.terrainMinTrackBar = new System.Windows.Forms.TrackBar();
+            this.surfaceMaxLabel2 = new System.Windows.Forms.Label();
+            this.surfaceMinLabel1 = new System.Windows.Forms.Label();
+            this.terrainMaxLabel2 = new System.Windows.Forms.Label();
+            this.terrainMinLabel1 = new System.Windows.Forms.Label();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.colID = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colTitle = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colVillage = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colPrice = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colConstructionYear = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colSurface = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colTerrain = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colConstructionYear = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colPiscine = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colTerrasse = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colChambres = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colPieces = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colParkings = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colPrixM2 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.annonceGridControl = new DevExpress.XtraGrid.GridControl();
+            this.btnRefresh = new System.Windows.Forms.Button();
+            this.lblCount = new System.Windows.Forms.Label();
+            surfaceMaxLabel = new System.Windows.Forms.Label();
+            terrainMaxLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.annonceBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.annonceBindingNavigator)).BeginInit();
-            this.annonceBindingNavigator.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.annonceGridControl)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.criteriaBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.surfaceMaxTrackBar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.surfaceMinTrackBar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.terrainMaxTrackBar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.terrainMinTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.annonceGridControl)).BeginInit();
             this.SuspendLayout();
+            // 
+            // surfaceMaxLabel
+            // 
+            surfaceMaxLabel.AutoSize = true;
+            surfaceMaxLabel.Location = new System.Drawing.Point(12, 22);
+            surfaceMaxLabel.Name = "surfaceMaxLabel";
+            surfaceMaxLabel.Size = new System.Drawing.Size(50, 13);
+            surfaceMaxLabel.TabIndex = 1;
+            surfaceMaxLabel.Text = "Surface :";
+            // 
+            // terrainMaxLabel
+            // 
+            terrainMaxLabel.AutoSize = true;
+            terrainMaxLabel.Location = new System.Drawing.Point(12, 79);
+            terrainMaxLabel.Name = "terrainMaxLabel";
+            terrainMaxLabel.Size = new System.Drawing.Size(46, 13);
+            terrainMaxLabel.TabIndex = 5;
+            terrainMaxLabel.Text = "Terrain :";
             // 
             // annonceBindingSource
             // 
-            this.annonceBindingSource.DataSource = typeof(Annonce);
+            this.annonceBindingSource.DataSource = typeof(SeLogerExtractor.DataAccess.DataAccess.Annonce);
             // 
-            // annonceBindingNavigator
+            // criteriaBindingSource
             // 
-            this.annonceBindingNavigator.AddNewItem = this.bindingNavigatorAddNewItem;
-            this.annonceBindingNavigator.BindingSource = this.annonceBindingSource;
-            this.annonceBindingNavigator.CountItem = this.bindingNavigatorCountItem;
-            this.annonceBindingNavigator.DeleteItem = this.bindingNavigatorDeleteItem;
-            this.annonceBindingNavigator.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.bindingNavigatorMoveFirstItem,
-            this.bindingNavigatorMovePreviousItem,
-            this.bindingNavigatorSeparator,
-            this.bindingNavigatorPositionItem,
-            this.bindingNavigatorCountItem,
-            this.bindingNavigatorSeparator1,
-            this.bindingNavigatorMoveNextItem,
-            this.bindingNavigatorMoveLastItem,
-            this.bindingNavigatorSeparator2,
-            this.bindingNavigatorAddNewItem,
-            this.bindingNavigatorDeleteItem,
-            this.annonceBindingNavigatorSaveItem});
-            this.annonceBindingNavigator.Location = new System.Drawing.Point(0, 0);
-            this.annonceBindingNavigator.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
-            this.annonceBindingNavigator.MoveLastItem = this.bindingNavigatorMoveLastItem;
-            this.annonceBindingNavigator.MoveNextItem = this.bindingNavigatorMoveNextItem;
-            this.annonceBindingNavigator.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
-            this.annonceBindingNavigator.Name = "annonceBindingNavigator";
-            this.annonceBindingNavigator.PositionItem = this.bindingNavigatorPositionItem;
-            this.annonceBindingNavigator.Size = new System.Drawing.Size(756, 25);
-            this.annonceBindingNavigator.TabIndex = 0;
-            this.annonceBindingNavigator.Text = "bindingNavigator1";
+            this.criteriaBindingSource.DataSource = typeof(ConsoleApplication1.Criteria);
             // 
-            // bindingNavigatorAddNewItem
+            // surfaceMaxTrackBar
             // 
-            this.bindingNavigatorAddNewItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorAddNewItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorAddNewItem.Image")));
-            this.bindingNavigatorAddNewItem.Name = "bindingNavigatorAddNewItem";
-            this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(23, 22);
-            this.bindingNavigatorAddNewItem.Text = "Add new";
+            this.surfaceMaxTrackBar.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.criteriaBindingSource, "SurfaceMax", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.surfaceMaxTrackBar.Location = new System.Drawing.Point(110, 44);
+            this.surfaceMaxTrackBar.Maximum = 500;
+            this.surfaceMaxTrackBar.Name = "surfaceMaxTrackBar";
+            this.surfaceMaxTrackBar.Size = new System.Drawing.Size(555, 45);
+            this.surfaceMaxTrackBar.TabIndex = 2;
             // 
-            // bindingNavigatorCountItem
+            // surfaceMinTrackBar
             // 
-            this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
-            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(35, 22);
-            this.bindingNavigatorCountItem.Text = "of {0}";
-            this.bindingNavigatorCountItem.ToolTipText = "Total number of items";
+            this.surfaceMinTrackBar.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.criteriaBindingSource, "SurfaceMin", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.surfaceMinTrackBar.Location = new System.Drawing.Point(110, 12);
+            this.surfaceMinTrackBar.Maximum = 500;
+            this.surfaceMinTrackBar.Name = "surfaceMinTrackBar";
+            this.surfaceMinTrackBar.Size = new System.Drawing.Size(555, 45);
+            this.surfaceMinTrackBar.TabIndex = 4;
             // 
-            // bindingNavigatorDeleteItem
+            // terrainMaxTrackBar
             // 
-            this.bindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorDeleteItem.Image")));
-            this.bindingNavigatorDeleteItem.Name = "bindingNavigatorDeleteItem";
-            this.bindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorDeleteItem.Size = new System.Drawing.Size(23, 22);
-            this.bindingNavigatorDeleteItem.Text = "Delete";
+            this.terrainMaxTrackBar.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.criteriaBindingSource, "TerrainMax", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.terrainMaxTrackBar.Location = new System.Drawing.Point(110, 113);
+            this.terrainMaxTrackBar.Maximum = 2000;
+            this.terrainMaxTrackBar.Name = "terrainMaxTrackBar";
+            this.terrainMaxTrackBar.Size = new System.Drawing.Size(555, 45);
+            this.terrainMaxTrackBar.TabIndex = 6;
             // 
-            // bindingNavigatorMoveFirstItem
+            // terrainMinTrackBar
             // 
-            this.bindingNavigatorMoveFirstItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorMoveFirstItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveFirstItem.Image")));
-            this.bindingNavigatorMoveFirstItem.Name = "bindingNavigatorMoveFirstItem";
-            this.bindingNavigatorMoveFirstItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveFirstItem.Size = new System.Drawing.Size(23, 22);
-            this.bindingNavigatorMoveFirstItem.Text = "Move first";
+            this.terrainMinTrackBar.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.criteriaBindingSource, "TerrainMin", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.terrainMinTrackBar.Location = new System.Drawing.Point(110, 79);
+            this.terrainMinTrackBar.Maximum = 2000;
+            this.terrainMinTrackBar.Name = "terrainMinTrackBar";
+            this.terrainMinTrackBar.Size = new System.Drawing.Size(555, 45);
+            this.terrainMinTrackBar.TabIndex = 8;
             // 
-            // bindingNavigatorMovePreviousItem
+            // surfaceMaxLabel2
             // 
-            this.bindingNavigatorMovePreviousItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorMovePreviousItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMovePreviousItem.Image")));
-            this.bindingNavigatorMovePreviousItem.Name = "bindingNavigatorMovePreviousItem";
-            this.bindingNavigatorMovePreviousItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMovePreviousItem.Size = new System.Drawing.Size(23, 22);
-            this.bindingNavigatorMovePreviousItem.Text = "Move previous";
+            this.surfaceMaxLabel2.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.criteriaBindingSource, "SurfaceMax", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.surfaceMaxLabel2.Location = new System.Drawing.Point(671, 44);
+            this.surfaceMaxLabel2.Name = "surfaceMaxLabel2";
+            this.surfaceMaxLabel2.Size = new System.Drawing.Size(100, 23);
+            this.surfaceMaxLabel2.TabIndex = 9;
+            this.surfaceMaxLabel2.Text = "label1";
             // 
-            // bindingNavigatorSeparator
+            // surfaceMinLabel1
             // 
-            this.bindingNavigatorSeparator.Name = "bindingNavigatorSeparator";
-            this.bindingNavigatorSeparator.Size = new System.Drawing.Size(6, 25);
+            this.surfaceMinLabel1.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.criteriaBindingSource, "SurfaceMin", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.surfaceMinLabel1.Location = new System.Drawing.Point(671, 12);
+            this.surfaceMinLabel1.Name = "surfaceMinLabel1";
+            this.surfaceMinLabel1.Size = new System.Drawing.Size(100, 23);
+            this.surfaceMinLabel1.TabIndex = 11;
+            this.surfaceMinLabel1.Text = "label1";
             // 
-            // bindingNavigatorPositionItem
+            // terrainMaxLabel2
             // 
-            this.bindingNavigatorPositionItem.AccessibleName = "Position";
-            this.bindingNavigatorPositionItem.AutoSize = false;
-            this.bindingNavigatorPositionItem.Name = "bindingNavigatorPositionItem";
-            this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(50, 23);
-            this.bindingNavigatorPositionItem.Text = "0";
-            this.bindingNavigatorPositionItem.ToolTipText = "Current position";
+            this.terrainMaxLabel2.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.criteriaBindingSource, "TerrainMax", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.terrainMaxLabel2.Location = new System.Drawing.Point(671, 113);
+            this.terrainMaxLabel2.Name = "terrainMaxLabel2";
+            this.terrainMaxLabel2.Size = new System.Drawing.Size(100, 23);
+            this.terrainMaxLabel2.TabIndex = 13;
+            this.terrainMaxLabel2.Text = "label1";
             // 
-            // bindingNavigatorSeparator1
+            // terrainMinLabel1
             // 
-            this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator1";
-            this.bindingNavigatorSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // bindingNavigatorMoveNextItem
-            // 
-            this.bindingNavigatorMoveNextItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorMoveNextItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveNextItem.Image")));
-            this.bindingNavigatorMoveNextItem.Name = "bindingNavigatorMoveNextItem";
-            this.bindingNavigatorMoveNextItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveNextItem.Size = new System.Drawing.Size(23, 22);
-            this.bindingNavigatorMoveNextItem.Text = "Move next";
-            // 
-            // bindingNavigatorMoveLastItem
-            // 
-            this.bindingNavigatorMoveLastItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorMoveLastItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveLastItem.Image")));
-            this.bindingNavigatorMoveLastItem.Name = "bindingNavigatorMoveLastItem";
-            this.bindingNavigatorMoveLastItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveLastItem.Size = new System.Drawing.Size(23, 22);
-            this.bindingNavigatorMoveLastItem.Text = "Move last";
-            // 
-            // bindingNavigatorSeparator2
-            // 
-            this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator2";
-            this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 25);
-            // 
-            // annonceBindingNavigatorSaveItem
-            // 
-            this.annonceBindingNavigatorSaveItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.annonceBindingNavigatorSaveItem.Enabled = false;
-            this.annonceBindingNavigatorSaveItem.Image = ((System.Drawing.Image)(resources.GetObject("annonceBindingNavigatorSaveItem.Image")));
-            this.annonceBindingNavigatorSaveItem.Name = "annonceBindingNavigatorSaveItem";
-            this.annonceBindingNavigatorSaveItem.Size = new System.Drawing.Size(23, 22);
-            this.annonceBindingNavigatorSaveItem.Text = "Save Data";
-            // 
-            // annonceGridControl
-            // 
-            this.annonceGridControl.DataSource = this.annonceBindingSource;
-            this.annonceGridControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            gridLevelNode1.RelationName = "Attributs";
-            this.annonceGridControl.LevelTree.Nodes.AddRange(new DevExpress.XtraGrid.GridLevelNode[] {
-            gridLevelNode1});
-            this.annonceGridControl.Location = new System.Drawing.Point(0, 25);
-            this.annonceGridControl.MainView = this.gridView1;
-            this.annonceGridControl.Name = "annonceGridControl";
-            this.annonceGridControl.Size = new System.Drawing.Size(756, 492);
-            this.annonceGridControl.TabIndex = 1;
-            this.annonceGridControl.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridView1});
+            this.terrainMinLabel1.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.criteriaBindingSource, "TerrainMin", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.terrainMinLabel1.Location = new System.Drawing.Point(671, 79);
+            this.terrainMinLabel1.Name = "terrainMinLabel1";
+            this.terrainMinLabel1.Size = new System.Drawing.Size(100, 23);
+            this.terrainMinLabel1.TabIndex = 15;
+            this.terrainMinLabel1.Text = "label1";
             // 
             // gridView1
             // 
             this.gridView1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.colID,
-            this.colTitle,
             this.colVillage,
             this.colPrice,
-            this.colConstructionYear,
             this.colSurface,
             this.colTerrain,
+            this.colConstructionYear,
             this.colPiscine,
-            this.colTerrasse,
             this.colChambres,
-            this.colPieces,
-            this.colParkings,
             this.colPrixM2});
             this.gridView1.GridControl = this.annonceGridControl;
             this.gridView1.Name = "gridView1";
             this.gridView1.OptionsView.ShowFooter = true;
-            // 
-            // colID
-            // 
-            this.colID.FieldName = "ID";
-            this.colID.Name = "colID";
-            this.colID.Visible = true;
-            this.colID.VisibleIndex = 0;
-            // 
-            // colTitle
-            // 
-            this.colTitle.FieldName = "Title";
-            this.colTitle.Name = "colTitle";
-            this.colTitle.Visible = true;
-            this.colTitle.VisibleIndex = 1;
             // 
             // colVillage
             // 
             this.colVillage.FieldName = "Village";
             this.colVillage.Name = "colVillage";
             this.colVillage.Visible = true;
-            this.colVillage.VisibleIndex = 2;
+            this.colVillage.VisibleIndex = 0;
             // 
             // colPrice
             // 
             this.colPrice.FieldName = "Price";
             this.colPrice.Name = "colPrice";
+            this.colPrice.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
+            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Average, "Price", "{0:n0}")});
             this.colPrice.Visible = true;
-            this.colPrice.VisibleIndex = 3;
+            this.colPrice.VisibleIndex = 1;
+            // 
+            // colSurface
+            // 
+            this.colSurface.FieldName = "Surface";
+            this.colSurface.Name = "colSurface";
+            this.colSurface.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
+            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Average, "Surface", "{0:n0}")});
+            this.colSurface.Visible = true;
+            this.colSurface.VisibleIndex = 2;
+            // 
+            // colTerrain
+            // 
+            this.colTerrain.FieldName = "Terrain";
+            this.colTerrain.Name = "colTerrain";
+            this.colTerrain.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
+            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Average, "Terrain", "{0:n0}")});
+            this.colTerrain.Visible = true;
+            this.colTerrain.VisibleIndex = 3;
             // 
             // colConstructionYear
             // 
@@ -266,81 +222,94 @@ namespace ConsoleApplication1
             this.colConstructionYear.Visible = true;
             this.colConstructionYear.VisibleIndex = 4;
             // 
-            // colSurface
-            // 
-            this.colSurface.FieldName = "Surface";
-            this.colSurface.Name = "colSurface";
-            this.colSurface.Visible = true;
-            this.colSurface.VisibleIndex = 5;
-            // 
-            // colTerrain
-            // 
-            this.colTerrain.FieldName = "Terrain";
-            this.colTerrain.Name = "colTerrain";
-            this.colTerrain.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
-            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Average, "Terrain", "{0:n2}")});
-            this.colTerrain.Visible = true;
-            this.colTerrain.VisibleIndex = 6;
-            // 
             // colPiscine
             // 
             this.colPiscine.FieldName = "Piscine";
             this.colPiscine.Name = "colPiscine";
             this.colPiscine.Visible = true;
-            this.colPiscine.VisibleIndex = 7;
-            // 
-            // colTerrasse
-            // 
-            this.colTerrasse.FieldName = "Terrasse";
-            this.colTerrasse.Name = "colTerrasse";
-            this.colTerrasse.Visible = true;
-            this.colTerrasse.VisibleIndex = 8;
+            this.colPiscine.VisibleIndex = 5;
             // 
             // colChambres
             // 
             this.colChambres.FieldName = "Chambres";
             this.colChambres.Name = "colChambres";
+            this.colChambres.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
+            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Average, "Chambres", "{0:n1}")});
             this.colChambres.Visible = true;
-            this.colChambres.VisibleIndex = 9;
-            // 
-            // colPieces
-            // 
-            this.colPieces.FieldName = "Pieces";
-            this.colPieces.Name = "colPieces";
-            this.colPieces.Visible = true;
-            this.colPieces.VisibleIndex = 10;
-            // 
-            // colParkings
-            // 
-            this.colParkings.FieldName = "Parkings";
-            this.colParkings.Name = "colParkings";
-            this.colParkings.Visible = true;
-            this.colParkings.VisibleIndex = 11;
+            this.colChambres.VisibleIndex = 6;
             // 
             // colPrixM2
             // 
+            this.colPrixM2.DisplayFormat.FormatString = "{0:n0}";
+            this.colPrixM2.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.colPrixM2.FieldName = "PrixM2";
             this.colPrixM2.Name = "colPrixM2";
             this.colPrixM2.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
-            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Average)});
+            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Average, "PrixM2", "{0:n0}")});
             this.colPrixM2.Visible = true;
-            this.colPrixM2.VisibleIndex = 12;
+            this.colPrixM2.VisibleIndex = 7;
+            // 
+            // annonceGridControl
+            // 
+            this.annonceGridControl.DataSource = this.annonceBindingSource;
+            gridLevelNode1.RelationName = "Attributs";
+            this.annonceGridControl.LevelTree.Nodes.AddRange(new DevExpress.XtraGrid.GridLevelNode[] {
+            gridLevelNode1});
+            this.annonceGridControl.Location = new System.Drawing.Point(0, 194);
+            this.annonceGridControl.MainView = this.gridView1;
+            this.annonceGridControl.Name = "annonceGridControl";
+            this.annonceGridControl.Size = new System.Drawing.Size(1103, 323);
+            this.annonceGridControl.TabIndex = 1;
+            this.annonceGridControl.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridView1});
+            // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Location = new System.Drawing.Point(1008, 22);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(75, 23);
+            this.btnRefresh.TabIndex = 16;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
+            // lblCount
+            // 
+            this.lblCount.AutoSize = true;
+            this.lblCount.Location = new System.Drawing.Point(13, 175);
+            this.lblCount.Name = "lblCount";
+            this.lblCount.Size = new System.Drawing.Size(35, 13);
+            this.lblCount.TabIndex = 17;
+            this.lblCount.Text = "label1";
             // 
             // FormTable
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(756, 517);
+            this.ClientSize = new System.Drawing.Size(1115, 537);
+            this.Controls.Add(this.lblCount);
+            this.Controls.Add(this.terrainMaxTrackBar);
+            this.Controls.Add(this.terrainMinTrackBar);
+            this.Controls.Add(this.btnRefresh);
+            this.Controls.Add(this.surfaceMaxLabel2);
+            this.Controls.Add(this.surfaceMinLabel1);
+            this.Controls.Add(this.terrainMaxLabel2);
+            this.Controls.Add(this.terrainMinLabel1);
+            this.Controls.Add(surfaceMaxLabel);
+            this.Controls.Add(this.surfaceMaxTrackBar);
+            this.Controls.Add(this.surfaceMinTrackBar);
+            this.Controls.Add(terrainMaxLabel);
             this.Controls.Add(this.annonceGridControl);
-            this.Controls.Add(this.annonceBindingNavigator);
             this.Name = "FormTable";
             this.Text = "FormTable";
             ((System.ComponentModel.ISupportInitialize)(this.annonceBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.annonceBindingNavigator)).EndInit();
-            this.annonceBindingNavigator.ResumeLayout(false);
-            this.annonceBindingNavigator.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.annonceGridControl)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.criteriaBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.surfaceMaxTrackBar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.surfaceMinTrackBar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.terrainMaxTrackBar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.terrainMinTrackBar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.annonceGridControl)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -349,33 +318,26 @@ namespace ConsoleApplication1
         #endregion
 
         private System.Windows.Forms.BindingSource annonceBindingSource;
-        private System.Windows.Forms.BindingNavigator annonceBindingNavigator;
-        private System.Windows.Forms.ToolStripButton bindingNavigatorAddNewItem;
-        private System.Windows.Forms.ToolStripLabel bindingNavigatorCountItem;
-        private System.Windows.Forms.ToolStripButton bindingNavigatorDeleteItem;
-        private System.Windows.Forms.ToolStripButton bindingNavigatorMoveFirstItem;
-        private System.Windows.Forms.ToolStripButton bindingNavigatorMovePreviousItem;
-        private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator;
-        private System.Windows.Forms.ToolStripTextBox bindingNavigatorPositionItem;
-        private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator1;
-        private System.Windows.Forms.ToolStripButton bindingNavigatorMoveNextItem;
-        private System.Windows.Forms.ToolStripButton bindingNavigatorMoveLastItem;
-        private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator2;
-        private System.Windows.Forms.ToolStripButton annonceBindingNavigatorSaveItem;
-        private DevExpress.XtraGrid.GridControl annonceGridControl;
+        private System.Windows.Forms.BindingSource criteriaBindingSource;
+        private System.Windows.Forms.TrackBar surfaceMaxTrackBar;
+        private System.Windows.Forms.TrackBar surfaceMinTrackBar;
+        private System.Windows.Forms.TrackBar terrainMaxTrackBar;
+        private System.Windows.Forms.TrackBar terrainMinTrackBar;
+        private System.Windows.Forms.Label surfaceMaxLabel2;
+        private System.Windows.Forms.Label surfaceMinLabel1;
+        private System.Windows.Forms.Label terrainMaxLabel2;
+        private System.Windows.Forms.Label terrainMinLabel1;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
-        private DevExpress.XtraGrid.Columns.GridColumn colID;
-        private DevExpress.XtraGrid.Columns.GridColumn colTitle;
         private DevExpress.XtraGrid.Columns.GridColumn colVillage;
         private DevExpress.XtraGrid.Columns.GridColumn colPrice;
         private DevExpress.XtraGrid.Columns.GridColumn colConstructionYear;
         private DevExpress.XtraGrid.Columns.GridColumn colSurface;
         private DevExpress.XtraGrid.Columns.GridColumn colTerrain;
         private DevExpress.XtraGrid.Columns.GridColumn colPiscine;
-        private DevExpress.XtraGrid.Columns.GridColumn colTerrasse;
         private DevExpress.XtraGrid.Columns.GridColumn colChambres;
-        private DevExpress.XtraGrid.Columns.GridColumn colPieces;
-        private DevExpress.XtraGrid.Columns.GridColumn colParkings;
         private DevExpress.XtraGrid.Columns.GridColumn colPrixM2;
+        private DevExpress.XtraGrid.GridControl annonceGridControl;
+        private Button btnRefresh;
+        private Label lblCount;
     }
 }

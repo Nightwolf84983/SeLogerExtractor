@@ -88,6 +88,8 @@
     </None>
     <None Include="DataAccess\ModelSeLoger.edmx.sqlce" />
     <None Include="Properties\DataSources\Annonce.datasource" />
+    <None Include="Properties\DataSources\ConsoleApplication1.Criteria.datasource" />
+    <None Include="Properties\DataSources\SeLogerExtractor.DataAccess.DataAccess.ModelSeLogerContainer.datasource" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

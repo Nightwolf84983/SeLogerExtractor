@@ -79,23 +79,23 @@ namespace SeLogerExtractor.DataAccess
             //  DownloadAnnonceListSource(Parameters.SearchURL, idExtraction, outputDir);
 
             Logger.Log("Extraction:" + idExtraction + "  ExtractAnnoncesLinkFromSource");
-            var annonceLinks = ExtractAnnoncesLinkFromSource(outputDir);
+          //  var annonceLinks = ExtractAnnoncesLinkFromSource(outputDir);
 
             Logger.Log("Extraction:" + idExtraction + "  DownloadAnnonceSource");
-            DownloadAnnonceSource(annonceLinks, idExtraction, outputDir);
+            //DownloadAnnonceSource(annonceLinks, idExtraction, outputDir);
 
             Logger.Log("Extraction:" + idExtraction + "  ExtractAnnoncesSource");
             var annonces = ExtractAnnoncesFromSource(outputDir);
 
-            annonces = annonces.Where(a => a.Terrain != null
-                                        && a.Terrain >= 200
-                                        && a.Terrain <= 600
-                                        && a.Surface != null
-                                        && a.Surface >= 80
-                                        && a.Surface <= 130
-                                        && a.Price != null
-                                        && a.Chambres >= 3
-                                        ).ToList();
+            //annonces = annonces.Where(a => a.Terrain != null
+            //                            && a.Terrain >= 200
+            //                            && a.Terrain <= 600
+            //                            && a.Surface != null
+            //                            && a.Surface >= 80
+            //                            && a.Surface <= 130
+            //                            && a.Price != null
+            //                            && a.Chambres >= 3
+            //                            ).ToList();
 
 
 
