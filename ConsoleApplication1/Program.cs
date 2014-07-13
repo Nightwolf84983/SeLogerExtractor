@@ -71,35 +71,42 @@ namespace SeLogerExtractor.DataAccess
 
             //try
             //{
-            Logger.Log("Extraction:" + idExtraction + "  CreateOutputDirectory");
-            Logger.Log("\t" + outputDir);
-            // CreateOutputDirectory(outputDir);
+            if (false)
+            {
+                Logger.Log("Extraction:" + idExtraction + "  CreateOutputDirectory");
+                Logger.Log("\t" + outputDir);
+                CreateOutputDirectory(outputDir);
 
-            Logger.Log("Extraction:" + idExtraction + "  DownloadAnnonceListSource");
-            //  DownloadAnnonceListSource(Parameters.SearchURL, idExtraction, outputDir);
+                Logger.Log("Extraction:" + idExtraction + "  DownloadAnnonceListSource");
+                DownloadAnnonceListSource(Parameters.SearchURL, idExtraction, outputDir);
 
-            Logger.Log("Extraction:" + idExtraction + "  ExtractAnnoncesLinkFromSource");
-          //  var annonceLinks = ExtractAnnoncesLinkFromSource(outputDir);
+                Logger.Log("Extraction:" + idExtraction + "  ExtractAnnoncesLinkFromSource");
+                var annonceLinks = ExtractAnnoncesLinkFromSource(outputDir);
 
-            Logger.Log("Extraction:" + idExtraction + "  DownloadAnnonceSource");
-            //DownloadAnnonceSource(annonceLinks, idExtraction, outputDir);
+                Logger.Log("Extraction:" + idExtraction + "  DownloadAnnonceSource");
+                DownloadAnnonceSource(annonceLinks, idExtraction, outputDir);
 
+            }
             Logger.Log("Extraction:" + idExtraction + "  ExtractAnnoncesSource");
             var annonces = ExtractAnnoncesFromSource(outputDir);
 
-            //annonces = annonces.Where(a => a.Terrain != null
-            //                            && a.Terrain >= 200
-            //                            && a.Terrain <= 600
-            //                            && a.Surface != null
-            //                            && a.Surface >= 80
-            //                            && a.Surface <= 130
-            //                            && a.Price != null
-            //                            && a.Chambres >= 3
-            //                            ).ToList();
+            List<String> exVill = new List<string>{
+"Saint Clement de Riviere",
+"Perols",
+"Castelnau le Lez",
+"Castelnau-le-Lez",
+"Montferrier sur Lez",
 
+"Montferrier",
+"Montferrier-sur-Lez",
+"Saint-Clément-de-Rivière",
+"Saint-Jean-de-Védas",
+            };
 
+            annonces = annonces.Where(a => !exVill.Contains(a.Village)).ToList();
 
             FormTable frm = new FormTable(annonces);
+            //FormTable frm = new FormTable(annonces.Take(500).ToList());
             frm.ShowDialog();
 
             Logger.Log("Extraction:" + idExtraction + "  SaveToDataBase");
@@ -285,6 +292,23 @@ namespace SeLogerExtractor.DataAccess
 
                     }
                 }
+
+
+                var piscineCritere = Regex.Matches(content, "title=\" Piscine\"");
+
+                if (piscineCritere.Count != 0)
+                {
+                    foreach (Match item in piscineCritere)
+                    {
+                        annonce.Piscine = true; ;
+                    }
+                }
+
+                // <li 
+                //    class="liste__item-float" 
+                //    title=" Piscine">
+                //     Piscine
+                //</li>
 
                 var regTerrain = Regex.Matches(content, "Terrain de ([0-9]+)(?:(?!m).)*");
 
