@@ -42,11 +42,11 @@ namespace ConsoleApplication1
             System.Windows.Forms.Label prixCalculeMoins10Label;
             System.Windows.Forms.Label filterOnPiscineLabel;
             System.Windows.Forms.Label withPiscineLabel;
-            DevExpress.XtraGrid.GridLevelNode gridLevelNode2 = new DevExpress.XtraGrid.GridLevelNode();
-            DevExpress.XtraCharts.XYDiagram xyDiagram2 = new DevExpress.XtraCharts.XYDiagram();
-            DevExpress.XtraCharts.Series series2 = new DevExpress.XtraCharts.Series();
-            DevExpress.XtraCharts.SideBySideBarSeriesLabel sideBySideBarSeriesLabel3 = new DevExpress.XtraCharts.SideBySideBarSeriesLabel();
-            DevExpress.XtraCharts.SideBySideBarSeriesLabel sideBySideBarSeriesLabel4 = new DevExpress.XtraCharts.SideBySideBarSeriesLabel();
+            DevExpress.XtraGrid.GridLevelNode gridLevelNode1 = new DevExpress.XtraGrid.GridLevelNode();
+            DevExpress.XtraCharts.XYDiagram xyDiagram1 = new DevExpress.XtraCharts.XYDiagram();
+            DevExpress.XtraCharts.Series series1 = new DevExpress.XtraCharts.Series();
+            DevExpress.XtraCharts.SideBySideBarSeriesLabel sideBySideBarSeriesLabel1 = new DevExpress.XtraCharts.SideBySideBarSeriesLabel();
+            DevExpress.XtraCharts.SideBySideBarSeriesLabel sideBySideBarSeriesLabel2 = new DevExpress.XtraCharts.SideBySideBarSeriesLabel();
             this.annonceBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.criteriaBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.surfaceMaxTrackBar = new System.Windows.Forms.TrackBar();
@@ -93,6 +93,7 @@ namespace ConsoleApplication1
             this.colPrixM21 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colPrixTerrainM2 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colCount = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.btnExcel = new System.Windows.Forms.Button();
             surfaceMaxLabel = new System.Windows.Forms.Label();
             terrainMaxLabel = new System.Windows.Forms.Label();
             prixCalculeLabel = new System.Windows.Forms.Label();
@@ -117,10 +118,10 @@ namespace ConsoleApplication1
             ((System.ComponentModel.ISupportInitialize)(this.variationSurfaceSpinEdit.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.variationTerrainSpinEdit.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartControl1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(xyDiagram2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(series2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(sideBySideBarSeriesLabel3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(sideBySideBarSeriesLabel4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(xyDiagram1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(series1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(sideBySideBarSeriesLabel1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(sideBySideBarSeriesLabel2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.productBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.prixCalculeSpinEdit.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.prixProposeSpinEdit.Properties)).BeginInit();
@@ -419,9 +420,9 @@ namespace ConsoleApplication1
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.annonceGridControl.DataSource = this.annonceBindingSource;
-            gridLevelNode2.RelationName = "Attributs";
+            gridLevelNode1.RelationName = "Attributs";
             this.annonceGridControl.LevelTree.Nodes.AddRange(new DevExpress.XtraGrid.GridLevelNode[] {
-            gridLevelNode2});
+            gridLevelNode1});
             this.annonceGridControl.Location = new System.Drawing.Point(12, 258);
             this.annonceGridControl.MainView = this.gridView1;
             this.annonceGridControl.Name = "annonceGridControl";
@@ -513,22 +514,22 @@ namespace ConsoleApplication1
             // 
             this.chartControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            xyDiagram2.AxisX.Range.ScrollingRange.SideMarginsEnabled = true;
-            xyDiagram2.AxisX.Range.SideMarginsEnabled = true;
-            xyDiagram2.AxisX.VisibleInPanesSerializable = "-1";
-            xyDiagram2.AxisY.Range.ScrollingRange.SideMarginsEnabled = true;
-            xyDiagram2.AxisY.Range.SideMarginsEnabled = true;
-            xyDiagram2.AxisY.VisibleInPanesSerializable = "-1";
-            this.chartControl1.Diagram = xyDiagram2;
+            xyDiagram1.AxisX.Range.ScrollingRange.SideMarginsEnabled = true;
+            xyDiagram1.AxisX.Range.SideMarginsEnabled = true;
+            xyDiagram1.AxisX.VisibleInPanesSerializable = "-1";
+            xyDiagram1.AxisY.Range.ScrollingRange.SideMarginsEnabled = true;
+            xyDiagram1.AxisY.Range.SideMarginsEnabled = true;
+            xyDiagram1.AxisY.VisibleInPanesSerializable = "-1";
+            this.chartControl1.Diagram = xyDiagram1;
             this.chartControl1.Location = new System.Drawing.Point(726, 12);
             this.chartControl1.Name = "chartControl1";
-            sideBySideBarSeriesLabel3.LineVisible = true;
-            series2.Label = sideBySideBarSeriesLabel3;
-            series2.Name = "Series 1";
+            sideBySideBarSeriesLabel1.LineVisible = true;
+            series1.Label = sideBySideBarSeriesLabel1;
+            series1.Name = "Series 1";
             this.chartControl1.SeriesSerializable = new DevExpress.XtraCharts.Series[] {
-        series2};
-            sideBySideBarSeriesLabel4.LineVisible = true;
-            this.chartControl1.SeriesTemplate.Label = sideBySideBarSeriesLabel4;
+        series1};
+            sideBySideBarSeriesLabel2.LineVisible = true;
+            this.chartControl1.SeriesTemplate.Label = sideBySideBarSeriesLabel2;
             this.chartControl1.Size = new System.Drawing.Size(483, 239);
             this.chartControl1.TabIndex = 22;
             // 
@@ -740,11 +741,22 @@ namespace ConsoleApplication1
             this.colCount.Visible = true;
             this.colCount.VisibleIndex = 3;
             // 
+            // btnExcel
+            // 
+            this.btnExcel.Location = new System.Drawing.Point(590, 35);
+            this.btnExcel.Name = "btnExcel";
+            this.btnExcel.Size = new System.Drawing.Size(75, 23);
+            this.btnExcel.TabIndex = 39;
+            this.btnExcel.Text = "Excel";
+            this.btnExcel.UseVisualStyleBackColor = true;
+            this.btnExcel.Click += new System.EventHandler(this.btnExcel_Click);
+            // 
             // FormTable
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1221, 672);
+            this.Controls.Add(this.btnExcel);
             this.Controls.Add(this.villePrixGridControl);
             this.Controls.Add(withPiscineLabel);
             this.Controls.Add(this.withPiscineCheckEdit);
@@ -798,10 +810,10 @@ namespace ConsoleApplication1
             ((System.ComponentModel.ISupportInitialize)(this.terrainCibleSpinEdit.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.variationSurfaceSpinEdit.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.variationTerrainSpinEdit.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(xyDiagram2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(sideBySideBarSeriesLabel3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(series2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(sideBySideBarSeriesLabel4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(xyDiagram1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(sideBySideBarSeriesLabel1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(series1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(sideBySideBarSeriesLabel2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.productBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.prixCalculeSpinEdit.Properties)).EndInit();
@@ -869,5 +881,6 @@ namespace ConsoleApplication1
         private DevExpress.XtraGrid.Columns.GridColumn colPrixM21;
         private DevExpress.XtraGrid.Columns.GridColumn colPrixTerrainM2;
         private DevExpress.XtraGrid.Columns.GridColumn colCount;
+        private Button btnExcel;
     }
 }

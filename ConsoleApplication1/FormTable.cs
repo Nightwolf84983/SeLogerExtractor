@@ -168,6 +168,12 @@ namespace ConsoleApplication1
         {
             Filter(this.list);
         }
+
+        private void btnExcel_Click(object sender, EventArgs e)
+        {
+            this.annonceGridControl.ExportToXlsx(@"C:\Users\Utilisateur\Desktop\seloger.xlsx");
+            this.annonceGridControl.ExportToCsv(@"C:\Users\Utilisateur\Desktop\seloger.csv");
+        }
     }
 
     public class Criteria : INotifyPropertyChanged
